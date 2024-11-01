@@ -6,6 +6,7 @@ import requests
 import time
 from pydantic import BaseModel
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
@@ -15,6 +16,17 @@ RETRY_DELAY = 2
 
 app = FastAPI()
 
+origins = [
+    "*", # Allow all origins
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
